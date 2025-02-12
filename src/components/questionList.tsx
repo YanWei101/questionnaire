@@ -1,6 +1,6 @@
 'use client'
 import React, {useState} from 'react';
-import QuestionCard from "@/component/questioncard";
+import QuestionCard from "@/components/questioncard";
 import {produce} from "immer";
 
 export default function QuestionList() {
@@ -61,24 +61,21 @@ export default function QuestionList() {
     }
 
     return (
-        <div>
-            <h1>问卷列表</h1>
+        <>
             {
                 questionList.map((q) => {
                     return (
                         <QuestionCard
                             key={q.id}
-                            id={q.id}
-                            title={q.title}
-                            isPublished={q.isPublished}
                             deleteQuestion={deleteQuestion}
                             publishQuestion={publishQuestion}
+                            {...q}
                         />
                     )
                 })
             }
             <button onClick={add}>添加问卷</button>
-        </div>
+        </>
     );
 }
 
