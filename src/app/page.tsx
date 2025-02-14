@@ -1,22 +1,41 @@
+import Link from 'next/link';
 import React from 'react';
-import QuestionList from "@/components/questionList";
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Home Page',
+  description: '主页',
+}
+ 
 
 function Home() {
     return (
-        <div className={'container p-6 h-screen'}>
-            <div className={'flex h-14 mb-3'}>
-                <div className={'flex-1 content-center'}>
-                    <h1>问卷列表</h1>
-                </div>
-                <div className={'flex-1 content-center text-right'}>
-                    Search
-                </div>
-            </div>
-            <QuestionList/>
-
-            <div>
-
-            </div>
+        <div>
+            <button>
+                <Link href={'/question/star'}>
+                    星标问卷
+                </Link>
+            </button>
+            <button>
+                <Link href={'/question/edit'}>
+                    编辑问卷
+                </Link>
+            </button>
+            <button>
+                <Link href={'/manage/list'}>
+                    问卷列表
+                </Link>
+            </button>
+            <button>
+                <Link href={'/manage/trash'}>
+                    回收站
+                </Link>
+            </button>
+            <button>
+                <Link href={'/manage/star'}>
+                    星标问卷列表
+                </Link>
+            </button>
         </div>
     );
 }
