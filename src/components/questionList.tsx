@@ -1,81 +1,134 @@
-'use client'
-import React, {useState} from 'react';
-import QuestionCard from "@/components/questioncard";
-import {produce} from "immer";
+"use client";
+import React, { useState } from "react";
+import QuestionCard from "@/components/QuestionCard";
+import { produce } from "immer";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 export default function QuestionList() {
+  const [questionList, setQuestionList] = useState([
+    {
+      _id: "q1",
+      title: "问卷1",
+      isPublished: true,
+      isStar: false,
+      createAt: "2025-02-15",
+      answerCount: 1,
+    },
+    {
+      _id: "q3",
+      title: "问卷3",
+      isPublished: true,
+      isStar: false,
+      createAt: "2025-02-15",
+      answerCount: 1,
+    },
+    {
+      _id: "q2",
+      title: "问卷2",
+      isPublished: false,
+      isStar: true,
+      createAt: "2025-02-15",
+      answerCount: 1,
+    },
+    {
+      _id: "q4",
+      title: "问卷4",
+      isPublished: true,
+      isStar: true,
+      createAt: "2025-02-15",
+      answerCount: 1,
+    },
+  ]);
 
-    const [questionList, setQuestionList] = useState([
-        {id: 'q1', title: '问卷1', isPublished: true},
-        {id: 'q2', title: '问卷2', isPublished: false},
-        {id: 'q3', title: '问卷3', isPublished: true},
-        {id: 'q4', title: '问卷4', isPublished: true},
-    ])
+  function deleteQuestion(id: string) {
+    // setQuestionList(questionList.filter((q) => {
+    //     return q.id !== id;
+    // }))
 
-    function deleteQuestion(id: string) {
-        // setQuestionList(questionList.filter((q) => {
-        //     return q.id !== id;
-        // }))
-
-        // immer 方法
-        setQuestionList(produce(draft => {
-            const index = draft.findIndex((q) => q.id === id)
-            draft.splice(index, 1)
-        }))
-    }
-
-    function publishQuestion(id: string) {
-        // setQuestionList(questionList.map((q) => {
-        //     if (q.id === id) {
-        //         q.isPublished = true
-        //     }
-        //     return q
-        // }))
-
-        // immer 方法
-        setQuestionList(produce(draft => {
-            const q = draft.find(q => q.id === id)
-            if (q) {
-                q.isPublished = true
-            }
-        }))
-    }
-
-    function add() {
-        const r = Math.random().toString().slice(-3)
-        // setQuestionList(questionList.concat(
-        //     {
-        //         id: 'q' + r,
-        //         title: '问卷' + r,
-        //         isPublished: false
-        //     }
-        // ))
-        //immer 方法
-        setQuestionList(produce(draft => {
-            draft.push({
-                id: 'q' + r,
-                title: '问卷' + r,
-                isPublished: false
-            })
-        }))
-    }
-
-    return (
-        <>
-            {
-                questionList.map((q) => {
-                    return (
-                        <QuestionCard
-                            key={q.id}
-                            deleteQuestion={deleteQuestion}
-                            publishQuestion={publishQuestion}
-                            {...q}
-                        />
-                    )
-                })
-            }
-            <button onClick={add}>添加问卷</button>
-        </>
+    // immer 方法
+    setQuestionList(
+      produce((draft) => {
+        const index = draft.findIndex((q) => q._id === id);
+        draft.splice(index, 1);
+      })
     );
-}
+  }
 
+  function publishQuestion(id: string) {
+    // setQuestionList(questionList.map((q) => {
+    //     if (q.id === id) {
+    //         q.isPublished = true
+    //     }
+    //     return q
+    // }))
+
+    // immer 方法
+    setQuestionList(
+      produce((draft) => {
+        const q = draft.find((q) => q._id === id);
+        if (q) {
+          q.isPublished = true;
+        }
+      })
+    );
+  }
+
+  function starQuestion(id: string) {
+    setQuestionList(
+      produce((draft) => {
+        const q = draft.find((q) => q._id === id);
+        if (q) {
+          q.isStar = !q.isStar;
+        }
+      })
+    );
+  }
+  //   function add() {
+  //     const r = Math.random().toString().slice(-3);
+  //     // setQuestionList(questionList.concat(
+  //     //     {
+  //     //         id: 'q' + r,
+  //     //         title: '问卷' + r,
+  //     //         isPublished: false
+  //     //     }
+  //     // ))
+  //     //immer 方法
+  //     setQuestionList(
+  //       produce((draft) => {
+  //         draft.push({
+  //           id: "q" + r,
+  //           title: "问卷" + r,
+  //           isPublished: false,
+  //         });
+  //       })
+  //     );
+  //   }
+
+  return (
+    <>
+      <header className="flex items-center">
+        <div className="flex-1 ">
+          <Title level={3}>我的问卷</Title>
+        </div>
+        <div className="flex-1 text-right">搜素</div>
+      </header>
+      <main>
+        {questionList.map((q) => {
+          return (
+            <QuestionCard
+              key={q._id}
+              id={q._id}
+              deleteQuestion={deleteQuestion}
+              publishQuestion={publishQuestion}
+              starQuestion={starQuestion}
+              {...q}
+            />
+          );
+        })}
+      </main>
+      <footer className="text-center">Loading More....</footer>
+    </>
+  );
+}

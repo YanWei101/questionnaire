@@ -1,7 +1,8 @@
-import React from 'react'
-
-export default function Page() {
-  return (
-    <div>question edit page</div>
-  )
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const id = (await params).id;
+  return <div>My Post: {id}</div>;
 }
