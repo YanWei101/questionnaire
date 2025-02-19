@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState, useEffect, Suspense } from "react";
 import { Input } from "antd";
 const { Search } = Input;
 import { useRouter, useSearchParams } from "next/navigation";
 import { LSTI_SEARCH_PARAM_KEY } from "@/constant";
 
-export default function ListSearch() {
+function SearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [searchText, setSearchText] = useState("");
@@ -33,5 +34,13 @@ export default function ListSearch() {
       value={searchText}
       onSearch={onSearch}
     />
+  );
+}
+
+export default function ListSearch() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchInput />
+    </Suspense>
   );
 }
