@@ -107,16 +107,16 @@ export default function QuestionList() {
   //   }
 
   return (
-    <>
-      <header className="flex items-center">
-        <div className="flex-1 ">
+    <div className="flex flex-col min-h-[calc(100vh-200px)]">
+      <header className="flex items-center mb-4">
+        <div className="flex-1">
           <Title level={3}>我的问卷</Title>
         </div>
         <div className="flex-1 text-right">
           <ListSearch />
         </div>
       </header>
-      <main>
+      <main className="flex-1">
         {questionList.map((q) => {
           return (
             <QuestionCard
@@ -130,7 +130,7 @@ export default function QuestionList() {
           );
         })}
       </main>
-      <footer className="text-center">Loading More....</footer>
-    </>
+      <footer className="text-center py-4">Loading More....</footer>
+    </div>
   );
 }

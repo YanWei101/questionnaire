@@ -21,13 +21,11 @@ export default function MainLayout({
         </Space>
         <UserInfo />
       </Header>
-      <Content className="flex-1 w-full p-4 md:p-6 bg-gray-100">
-        <div className="max-w-screen-xl mx-auto">
-          {children}
-        </div>
+      <Content className="flex-1 w-full  bg-gray-100">
+        <div className="max-w-screen-xl mx-auto">{children}</div>
       </Content>
       <Footer className="text-center w-full">
-        问卷调查系统 ©{new Date().getFullYear()}
+        问卷调查系统 ©{new Date().getFullYear()} - present. created by YanWei 
       </Footer>
     </Layout>
   );
