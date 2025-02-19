@@ -11,8 +11,8 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Header className="flex justify-between items-center  p-10 border-b border-gray-200">
+    <Layout className="min-h-screen w-full">
+      <Header className="flex justify-between items-center p-4 md:p-10 border-b border-gray-200 w-full">
         <Space>
           <Link href="/" className="text-xl font-bold hover:text-gray-700">
             <EditOutlined />
@@ -21,8 +21,12 @@ export default function MainLayout({
         </Space>
         <UserInfo />
       </Header>
-      <Content>{children}</Content>
-      <Footer style={{ textAlign: "center" }}>
+      <Content className="flex-1 w-full p-4 md:p-6 bg-gray-100">
+        <div className="max-w-screen-xl mx-auto">
+          {children}
+        </div>
+      </Content>
+      <Footer className="text-center w-full">
         问卷调查系统 ©{new Date().getFullYear()}
       </Footer>
     </Layout>
