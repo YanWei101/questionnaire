@@ -107,7 +107,7 @@ export default function QuestionList() {
   //   }
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-200px)]">
+    <div className="flex flex-col ">
       <header className="flex items-center mb-4">
         <div className="flex-1">
           <Title level={3}>我的问卷</Title>

@@ -1,6 +1,6 @@
 'use client'
-import { Button, Space } from "antd";
-import { usePathname } from "next/navigation";
+import { Button, Space,message } from "antd";
+import { usePathname,useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   PlusOutlined,
@@ -8,18 +8,33 @@ import {
   StarOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-
+import {createQuestion} from '@/services/question'
+import { useState } from "react";
 
 export default function ManageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isLoading,setIsLoading] = useState(false)
   const pathname = usePathname();
+  const router = useRouter()
+  async function onCreateQuestion(){
+    setIsLoading(true)
+    const data = await createQuestion()
+    const {id} = data || {}
+    if (id) {
+      router.push(`/question/edit/${id}`)
+      message.success('创建成功')
+    }
+    setIsLoading(false)
+  }
+
+
   return (
-    <div className="flex mx-auto p-10">
+    <div className="flex mx-auto p-10 h-[calc(100vh-135px)]">
         <Space direction="vertical" size={16}>
-          <Button type="primary" className="mb-4" icon={<PlusOutlined />}>
+          <Button type="primary" className="mb-4" icon={<PlusOutlined />} onClick={onCreateQuestion} loading={isLoading}>
             创建问卷
           </Button>
           <Button type={pathname === "/manage/list" ? "default" : "text"}  icon={<BarsOutlined />}>

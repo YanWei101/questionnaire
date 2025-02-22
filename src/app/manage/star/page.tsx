@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import QuestionCard from "@/components/QuestionCard";
 import { produce } from "immer";
 import { Typography, Empty } from "antd";
+import ListSearch from "@/components/ListSearch";
 
 const { Title } = Typography;
 
@@ -108,11 +109,13 @@ export default function QuestionList() {
 
   return (
     <>
-      <header className="flex items-center">
-        <div className="flex-1 ">
+      <header className="flex items-center mb-4">
+        <div className="flex-1">
           <Title level={3}>我的问卷</Title>
         </div>
-        <div className="flex-1 text-right">搜素</div>
+        <div className="flex-1 text-right">
+          <ListSearch />
+        </div>
       </header>
       <main>
         {questionList.length === 0 ? (
