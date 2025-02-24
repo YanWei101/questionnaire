@@ -11,7 +11,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Layout className="min-h-screen w-full">
+    <Layout className="h-full w-full">
       <Header className="flex justify-between items-center p-4 md:p-10 border-b border-gray-200 w-full">
         <Space>
           <Link href="/" className="text-xl font-bold hover:text-gray-700">
@@ -21,8 +21,8 @@ export default function MainLayout({
         </Space>
         <UserInfo />
       </Header>
-      <Content className="flex-1   bg-gray-100">
-        <div className="mx-auto min-h-[calc(100vh-135px)]">{children}</div>
+      <Content className="bg-gray-100 !min-h-[calc(100vh-135px)]">
+        <div className="mx-auto">{children}</div>
       </Content>
       <Footer className="text-center w-full">
         问卷调查系统 ©{new Date().getFullYear()} - present. created by YanWei 

@@ -30,6 +30,7 @@ function SearchInput() {
       className="mb-2"
       style={{ width: "200px" }}
       size="large"
+      allowClear
       onChange={onChange}
       value={searchText}
       onSearch={onSearch}

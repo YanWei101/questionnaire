@@ -1,48 +1,16 @@
 "use client";
 import React, { useState } from "react";
 
-import { Typography, Empty, Table, Tag, Space, Button, Modal } from "antd";
-
+import {Typography, Empty, Table, Tag, Space, Button, Modal, Spin} from "antd";
+import ListSearch from "@/components/ListSearch";
+import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
 const { Title } = Typography;
 const { confirm } = Modal;
 
 export default function QuestionList() {
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
+  const {list = {},loading} = useLoadQuestionListData()
 
-  const questionList = [
-    {
-      _id: "q1",
-      title: "问卷1",
-      isPublished: true,
-      isStar: false,
-      createAt: "2025-02-15",
-      answerCount: 1,
-    },
-    {
-      _id: "q3",
-      title: "问卷3",
-      isPublished: true,
-      isStar: false,
-      createAt: "2025-02-15",
-      answerCount: 1,
-    },
-    {
-      _id: "q2",
-      title: "问卷2",
-      isPublished: false,
-      isStar: true,
-      createAt: "2025-02-15",
-      answerCount: 1,
-    },
-    {
-      _id: "q4",
-      title: "问卷4",
-      isPublished: true,
-      isStar: true,
-      createAt: "2025-02-15",
-      answerCount: 1,
-    },
-  ];
 
   const QuestionColumns = [
     {
@@ -98,7 +66,7 @@ export default function QuestionList() {
             setSelectedRowKeys(selectedRowKeys as string[]);
           },
         }}
-        dataSource={questionList}
+        dataSource={list}
         columns={QuestionColumns}
         rowKey="_id"
       />
@@ -111,14 +79,17 @@ export default function QuestionList() {
         <div className="flex-1 ">
           <Title level={3}>我的问卷</Title>
         </div>
-        <div className="flex-1 text-right">搜素</div>
+        <div className="flex-1 text-right">
+          <ListSearch/>
+        </div>
       </header>
-      <main>
-        {questionList.length === 0 ? (
-          <Empty description="暂无资源" />
-        ) : (
-          TableElement
-        )}
+      <main className={'h-min-[calc(100vh-135px)]'}>
+        {loading && <div className={'text-center mb-4'}>
+          <Spin/>
+        </div>}
+        {!loading && list.length === 0 && <Empty description="暂无资源" />}
+        {list.length > 0 && TableElement}
+
       </main>
       <footer className="text-center">分页</footer>
     </>

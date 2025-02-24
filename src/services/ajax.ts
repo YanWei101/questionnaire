@@ -20,6 +20,7 @@ ajax.interceptors.response.use(res=>{
 
 export default ajax
 export type responseType = {
+    id: string;
     errno:number
     data:responseData
     msg:string
