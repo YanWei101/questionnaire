@@ -3,6 +3,10 @@ import axios from './ajax'
 
 type SearchKeyword = {
     keyword: string
+    isDeleted: boolean
+    isStar: boolean
+    page: number
+    pageSize:number
 }
 
 export async function getQuestion(id: string): Promise<responseType> {

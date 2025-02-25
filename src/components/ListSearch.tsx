@@ -3,7 +3,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { Input } from "antd";
 const { Search } = Input;
 import { useRouter, useSearchParams } from "next/navigation";
-import { LSTI_SEARCH_PARAM_KEY } from "@/constant";
+import { LISI_SEARCH_PARAM_KEY } from "@/constant";
 
 function SearchInput() {
   const router = useRouter();
@@ -12,7 +12,7 @@ function SearchInput() {
 
   // 从 URL 参数中获取初始值
   useEffect(() => {
-    const val = searchParams.get(LSTI_SEARCH_PARAM_KEY) || "";
+    const val = searchParams.get(LISI_SEARCH_PARAM_KEY) || "";
     setSearchText(val);
   }, [searchParams]);
 
@@ -21,7 +21,7 @@ function SearchInput() {
   };
   
   const onSearch = () => {
-    router.push(`?${LSTI_SEARCH_PARAM_KEY}=${searchText}`);
+    router.push(`?${LISI_SEARCH_PARAM_KEY}=${searchText}`);
   };
 
   return (

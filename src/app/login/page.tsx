@@ -19,7 +19,7 @@ export default function Page() {
     if (username && password) {
       form.setFieldsValue({ username, password });
     }
-  }, []);
+  }, [form]);
   const onFinish = (values: LoginForm) => {
     const { username, password, remember } = values || {};
     if (remember) {

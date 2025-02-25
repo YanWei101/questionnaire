@@ -14,7 +14,7 @@ type IProps = {
   isPublished: boolean;
   isStar: boolean;
   answerCount: number;
-  createAt: string;
+  createdAt: string;
   deleteQuestion?: (id: string) => void;
   publishQuestion?: (id: string) => void;
   starQuestion?: (id: string) => void;
@@ -29,7 +29,7 @@ export default function QuestionCard(props: IProps) {
     isPublished,
     isStar,
     answerCount,
-    createAt,
+    createdAt,
     deleteQuestion,
     publishQuestion,
     starQuestion,
@@ -79,7 +79,7 @@ export default function QuestionCard(props: IProps) {
           <Space>
             {isPublished ? <Tag color="blue">已发布</Tag> : <Tag>未发布</Tag>}
             <span>答卷：{answerCount}</span>
-            <span>创建时间：{createAt}</span>
+            <span>创建时间：{createdAt}</span>
           </Space>
         </div>
       </div>

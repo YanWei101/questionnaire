@@ -4,12 +4,14 @@ import React, { useState } from "react";
 import {Typography, Empty, Table, Tag, Space, Button, Modal, Spin} from "antd";
 import ListSearch from "@/components/ListSearch";
 import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
+import ListPage from "@/components/ListPage";
 const { Title } = Typography;
 const { confirm } = Modal;
 
 export default function QuestionList() {
   const [selectedRowKeys, setSelectedRowKeys] = useState<string[]>([]);
-  const {list = {},loading} = useLoadQuestionListData()
+  const {list,total,loading} = useLoadQuestionListData()
+
 
 
   const QuestionColumns = [
@@ -91,7 +93,9 @@ export default function QuestionList() {
         {list.length > 0 && TableElement}
 
       </main>
-      <footer className="text-center">分页</footer>
+      <footer className="text-center">
+        <ListPage total={total}/>
+      </footer>
     </>
   );
 }

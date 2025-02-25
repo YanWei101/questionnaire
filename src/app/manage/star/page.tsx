@@ -9,7 +9,7 @@ import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
 const {Title} = Typography;
 
 export default function QuestionList() {
-    const {list = {}, loading} = useLoadQuestionListData({isStar:true})
+    const {list, loading} = useLoadQuestionListData({isStar:true})
 
     // function deleteQuestion(id: string) {
         // setQuestionList(questionList.filter((q) => {
@@ -92,7 +92,7 @@ export default function QuestionList() {
                     {!loading && list.length === 0 ? (
                         <Empty description="暂无数据"/>
                     ) : (
-                        list.map((q:any) => {
+                        list.map((q) => {
                             return (
                                 <QuestionCard
                                     key={q._id}
