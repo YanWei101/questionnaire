@@ -9,21 +9,24 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import {useRequest} from "ahooks";
-import {changeQuestion} from "@/services/question";
+import {changeQuestion,duplicateQuestion} from "@/services/question";
+import {useRouter} from "next/navigation";
 
 type IProps = {
-    _id: string;
-    title: string;
-    isPublished: boolean;
-    isStar: boolean;
-    answerCount: number;
-    createdAt: string;
-    deleteQuestion?: (id: string) => void;
-    publishQuestion?: (id: string) => void;
-    starQuestion?: (id: string) => void;
+    _id: string,
+    title: string,
+    isPublished: boolean,
+    isStar: boolean,
+    answerCount: number,
+    createdAt: string,
+    deleteQuestion?: (id: string) => void,
+    publishQuestion?: (id: string) => void,
+    starQuestion?: (id: string) => void,
+    id?: string
 };
 
 const {confirm} = Modal;
+
 
 export default function QuestionCard(props: IProps) {
     const {
@@ -34,20 +37,17 @@ export default function QuestionCard(props: IProps) {
         answerCount,
         createdAt,
         deleteQuestion,
-        publishQuestion,
-
     } = props;
     const [isStarState, isSetStarState] = useState(isStar)
-
-    const {loading:starLoading,run:changeStar} = useRequest(async () => {
-        await changeQuestion(_id, {isStar: !isStarState})
-    },{
-        manual:true,
-        onSuccess(){
-            isSetStarState(!isStarState)
-
-            message.success("更改成功");
-        }
+    const router = useRouter()
+    const {loading: starLoading, run: changeStar} = useRequest(async () => {
+            await changeQuestion(_id, {isStar: !isStarState})
+        }, {
+            manual: true,
+            onSuccess() {
+                isSetStarState(!isStarState)
+                message.success("更改成功");
+            }
         }
     )
 
@@ -65,17 +65,16 @@ export default function QuestionCard(props: IProps) {
         }
     }
 
-    function publish(id: string) {
-        if (publishQuestion) {
-            publishQuestion(id);
-        }
+    const {loading:duplicateLoading,run:duplicate} = useRequest(async ()=>{
+        return await duplicateQuestion(_id)
+    },{
+        manual:true,
+        onSuccess(result){
+            message.success('复制成功')
+            router.push(`/question/edit/${result.id}`)
     }
+    })
 
-    // function star(id: string) {
-    //     if (starQuestion) {
-    //         starQuestion(id);
-    //     }
-    // }
 
     return (
         <div key={_id} className={" w-full mb-10 bg-white rounded-lg p-2"}>
@@ -130,18 +129,15 @@ export default function QuestionCard(props: IProps) {
                             title="确定发布问卷吗"
                             okText="确定"
                             cancelText="取消"
-                            onConfirm={() => {
-                                publish(_id);
-                                message.success("发布成功");
-                            }}
+                            onConfirm={duplicate}
+                            disabled={duplicateLoading}
                         >
                             <Button
                                 type="text"
                                 size="small"
-                                disabled={isPublished}
                                 icon={<CopyOutlined/>}
                             >
-                                发布
+                                复制
                             </Button>
                         </Popconfirm>
 

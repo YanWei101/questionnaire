@@ -33,3 +33,8 @@ export async function changeQuestion(id:string,opt:change): Promise<responseType
     const url = `/api/question/${id}`
     return (await axios.patch(url,opt)) as responseType
 }
+
+export async function  duplicateQuestion(id:string){
+    const url= `/api/question/duplicate/${id}`
+    return (await axios.post(url)) as responseType
+}
