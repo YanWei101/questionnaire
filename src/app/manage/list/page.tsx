@@ -1,7 +1,7 @@
 "use client";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import QuestionCard from "@/components/QuestionCard";
-import {Spin, Typography} from "antd";
+import {Spin, Typography,Empty} from "antd";
 import ListSearch from '@/components/ListSearch';
 import {getQuestionList} from "@/services/question";
 import {useSearchParams} from "next/navigation";
@@ -15,21 +15,29 @@ const {Title} = Typography;
 export default function QuestionList() {
     // const {loading,list,total} = useLoadQuestionListData()
     const searchParams = useSearchParams()
+
     const [page, setPage] = useState(1)
 
     const [list, setList] = useState<QuestionListItem[]>([]);
 
     const containerRef = useRef<HTMLDivElement>(null)
-
+    const [started,setStarted] = useState(false)
     const [total, setTotal] = useState(0)
 
     const haveLoadMore = total > list.length
+    const keyword = searchParams.get(LISI_SEARCH_PARAM_KEY) || ''
+    useEffect(() => {
+        setList([])
+        setTotal(0)
+        setPage(1)
+        setStarted(false)
+    }, [keyword]);
 
     const {run, loading}= useRequest(
         async () => {
             return await getQuestionList({
                 page,
-                keyword: searchParams.get(LISI_SEARCH_PARAM_KEY) || '',
+                keyword,
                 pageSize: LIST_SEARCH_PARAM_PAGE_SIZE
             })
 
@@ -52,6 +60,7 @@ export default function QuestionList() {
         const {bottom} = domRef
         if (bottom <= document.body.clientHeight) {
             run()
+            setStarted(true)
         }
     }, {
         wait: 1000
@@ -70,7 +79,14 @@ export default function QuestionList() {
         }
     }, [searchParams,haveLoadMore])
 
-
+    const  LoadMoreContent =useMemo(
+        ()=>{
+            if(!started||loading) return <Spin/>
+            if(total === 0) return <Empty description={'暂无数据'}/>
+            if(!haveLoadMore) return <span>没有更多了</span>
+            return <span>开始加载下一页</span>
+        },[started,loading,haveLoadMore]
+    )
     return (
 
         <div className="flex flex-col ">
@@ -95,16 +111,13 @@ export default function QuestionList() {
                         />
                     );
                 })}
-                {loading && <div className={'text-center mb-4'}>
-                    <Spin/>
-                </div>}
 
             </main>
 
 
             <footer className="text-center py-4 mx-auto">
                 <div ref={containerRef}>
-                    loadMore.....
+                    {LoadMoreContent}
                 </div>
             </footer>
         </div>
